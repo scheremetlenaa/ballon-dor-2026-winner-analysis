@@ -1,0 +1,53 @@
+table DimCompetition
+	lineageTag: 63afceb7-25a2-49b0-ade4-b3bc01d016e2
+
+	column CompetitionID
+		dataType: string
+		isHidden
+		lineageTag: 20afc5f2-a443-40b6-b3b4-04b4089b4990
+		summarizeBy: none
+		sourceColumn: CompetitionID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompetitionName
+		dataType: string
+		lineageTag: e171cbb0-b0ab-4c4c-abed-0ed74667b7c5
+		summarizeBy: none
+		sourceColumn: CompetitionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompetitionType
+		dataType: string
+		lineageTag: e3611d89-e935-4ccf-8c16-d016406588ce
+		summarizeBy: none
+		sourceColumn: CompetitionType
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsBigStage
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ca343467-528c-4864-90ce-b39b492e4f41
+		summarizeBy: none
+		sourceColumn: IsBigStage
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCompetition = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "DimCompetition", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"CompetitionID", type text}, {"CompetitionName", type text}, {"CompetitionType", type text}, {"IsBigStage", type logical}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [CompetitionID] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

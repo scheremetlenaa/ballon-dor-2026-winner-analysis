@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "BallonDor"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f72ea12d-4d74-46cd-9d96-667d46900fa4"
+  }
+}

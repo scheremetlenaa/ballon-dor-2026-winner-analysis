@@ -1,0 +1,175 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 904.6897132433437,
+        "y": 332.73876133204487
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1378.240201272574,
+            "y": 893.90071604740319
+          },
+          "nodeIndex": "DimCompetition",
+          "nodeLineageTag": "63afceb7-25a2-49b0-ade4-b3bc01d016e2",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1020.3880618253868,
+            "y": 838.79894194138524
+          },
+          "nodeIndex": "DimPlayer",
+          "nodeLineageTag": "5cff4704-6886-41aa-bfec-eba645e30c3f",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 642.22997878201511,
+            "y": 881.9317370521394
+          },
+          "nodeIndex": "DimSeason",
+          "nodeLineageTag": "2020096d-4ec4-4499-a51b-187795fed6dd",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 250.3350407326152,
+            "y": 917.73788612006365
+          },
+          "nodeIndex": "DimTeam",
+          "nodeLineageTag": "359974c6-9f63-4ad6-85ef-f22c24bfe855",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 594.83063548155292,
+            "y": 1475.6677564005979
+          },
+          "nodeIndex": "FactPlayerCompetition",
+          "nodeLineageTag": "030008ce-ae8d-4547-a877-aef4b17624fd",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 389.38512612383232
+          },
+          "nodeIndex": "FactPlayerMatch",
+          "nodeLineageTag": "57260a8f-fbbd-401f-a9da-54771a840d56",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 369.48007760800408,
+            "y": 118.91248429828083
+          },
+          "nodeIndex": "FactPlayerSeason",
+          "nodeLineageTag": "59328e3a-dd41-4253-b809-a80e6f7061f6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1228.5712143553126,
+            "y": 1416.3813250991418
+          },
+          "nodeIndex": "FactVoting",
+          "nodeLineageTag": "fc734f9d-be78-429d-be28-4d44b531f277",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2011.0399278437158,
+            "y": 890.67345600895339
+          },
+          "nodeIndex": "IndexWeights",
+          "nodeLineageTag": "5de3cbb3-f6d1-4e91-ba80-0da2fa4afacc",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2295.0399278437158,
+            "y": 812.05679166846733
+          },
+          "nodeIndex": "DimDate",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2579.0399278437158,
+            "y": 794.44012732798126
+          },
+          "nodeIndex": "Measure",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2863.0399278437158,
+            "y": 768.01513081725216
+          },
+          "nodeIndex": "Rivals",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 55.599173134922438,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

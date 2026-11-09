@@ -1,0 +1,35 @@
+table IndexWeights
+	lineageTag: 84d61b5e-3868-4339-bd05-88f519e16edc
+
+	column Component
+		dataType: string
+		lineageTag: 030ce052-f595-4efe-9e8b-382d38b571f2
+		summarizeBy: none
+		sourceColumn: Component
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weight
+		dataType: double
+		lineageTag: aed571d6-b0b6-4691-a079-1fe042f4e17c
+		summarizeBy: sum
+		sourceColumn: Weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition IndexWeights = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "IndexWeights", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Component", type text}, {"Weight", type number}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [Component] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

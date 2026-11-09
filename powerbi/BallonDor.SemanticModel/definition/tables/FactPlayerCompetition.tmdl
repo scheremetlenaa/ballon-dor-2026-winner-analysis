@@ -1,0 +1,114 @@
+table FactPlayerCompetition
+	lineageTag: e345ef95-a38f-4bc1-8b6c-69647eba63fd
+
+	column SeasonID
+		dataType: string
+		isHidden
+		lineageTag: 138365a8-a9e0-4f1c-9b83-23adece0e7bd
+		summarizeBy: none
+		sourceColumn: SeasonID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlayerID
+		dataType: string
+		isHidden
+		lineageTag: 2fd2d843-0e35-416b-9cb0-9bdbb9a198a8
+		summarizeBy: none
+		sourceColumn: PlayerID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamID
+		dataType: string
+		isHidden
+		lineageTag: 923c34e8-c964-42a2-98e5-41632b53b488
+		summarizeBy: none
+		sourceColumn: TeamID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompetitionID
+		dataType: string
+		isHidden
+		lineageTag: 32adbec4-500c-4ce0-bb83-b9e64c2d46c6
+		summarizeBy: none
+		sourceColumn: CompetitionID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StageReached
+		dataType: string
+		lineageTag: 5576545b-d4fc-443a-aac3-32547791e5ba
+		summarizeBy: none
+		sourceColumn: StageReached
+
+		annotation SummarizationSetBy = Automatic
+
+	column StageOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: ae7d21b3-44e9-4348-b1d1-4077bb337b5a
+		summarizeBy: sum
+		sourceColumn: StageOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxStageOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: f4d3ca11-0356-4d9f-8b38-221c5d1b4951
+		summarizeBy: sum
+		sourceColumn: MaxStageOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWinner
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0143aa88-1b19-4b1d-bc90-0bc0a392b7ed
+		summarizeBy: none
+		sourceColumn: IsWinner
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrophyTier
+		dataType: string
+		lineageTag: 0c829909-ebf0-495b-b61e-425ab4326260
+		summarizeBy: none
+		sourceColumn: TrophyTier
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrophyWeight
+		dataType: double
+		lineageTag: 1fbb0494-b44c-4648-9671-864bd18092b9
+		summarizeBy: sum
+		sourceColumn: TrophyWeight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactPlayerCompetition = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "FactPlayerCompetition", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"SeasonID", type text}, {"PlayerID", type text}, {"TeamID", type text}, {"CompetitionID", type text}, {"StageReached", type text}, {"StageOrder", Int64.Type}, {"MaxStageOrder", Int64.Type}, {"IsWinner", type logical}, {"TrophyTier", type text}, {"TrophyWeight", type number}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [SeasonID] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

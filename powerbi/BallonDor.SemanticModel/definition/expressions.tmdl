@@ -1,0 +1,7 @@
+expression DataFile = "D:\ballon-dor-2026-analysis\data\processed\BallonDor_Data.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 148e75aa-2c80-406f-9671-383392807470
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+

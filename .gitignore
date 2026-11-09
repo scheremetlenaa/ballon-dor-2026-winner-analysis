@@ -1,0 +1,19 @@
+# Power BI Project local files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+*.pbix.bak
+~$*.xlsx
+
+# ETL
+data/raw/cache/
+data/raw/browser-profile/
+__pycache__/
+.pytest_cache/
+.venv/
+.DS_Store
+
+# Analysis
+*.log
+data/processed/*.duckdb
+data/processed/*.duckdb.wal
+.ipynb_checkpoints/

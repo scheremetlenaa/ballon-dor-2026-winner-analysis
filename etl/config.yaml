@@ -1,0 +1,128 @@
+# ETL settings read by etl/run.py.
+
+output: data/processed/BallonDor_Data.xlsx
+cache_dir: data/raw/cache                  # cached HTTP responses
+request_delay_seconds: 1.0                 # delay between live requests
+browser_profile: data/raw/browser-profile  # Chrome profile of etl/browser.py
+chrome_path: null                          # path to Chrome when it is not found automatically
+
+# Award years (no award in 2020).
+years: [2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026]
+
+# Years that also get match-level rows in FactPlayerMatch (form, big games, rolling charts).
+match_level_years: [2026]
+
+# How many nominees per year get statistics.
+top_n_nominees:
+  match_level_years: 10
+  other_years: 10
+
+# Evaluation window: from this year a season (August-July), before it a calendar year.
+season_based_from: 2022
+
+# Voting systems.
+#   max_points   = points for 1st place on one ballot
+#   ballot_total = sum of points on one ballot (used to estimate VotersCount)
+point_systems:
+  - {from: 2006, to: 2009, max_points: 5, ballot_total: 15}     # 5-4-3-2-1
+  - {from: 2010, to: 2015, max_points: null, ballot_total: null} # FIFA Ballon d'Or: percentages
+  - {from: 2016, to: 2023, max_points: 6, ballot_total: 16}     # 6-4-3-2-1
+  - {from: 2024, to: 2099, max_points: 15, ballot_total: 67}    # 15-12-10-8-7-5-4-3-2-1
+
+# Known voter counts. Missing years are estimated as total points / ballot_total.
+voters_count:
+  2022: 100
+  2023: 100
+  2024: 100
+  2025: 100
+  2026: 100
+
+# Weights of the composite BdO Index (sum = 1) -> IndexWeights table.
+index_weights: {Output: 0.40, Trophies: 0.35, BigGames: 0.25}
+
+# Big-5 leagues: SofaScore tournament IDs of the tables used for top-6 opponents, league positions and titles.
+leagues:
+  Premier League: {sofascore_id: 17}
+  La Liga:        {sofascore_id: 8}
+  Serie A:        {sofascore_id: 23}
+  Bundesliga:     {sofascore_id: 35}
+  Ligue 1:        {sofascore_id: 34}
+
+# SofaScore team name -> name in the model, applied before team IDs are built.
+team_names:
+  1. FC Heidenheim: FC Heidenheim
+  1. FC Köln: FC Köln
+  1. FC Union Berlin: FC Union Berlin
+  1. FSV Mainz 05: FSV Mainz 05
+
+# SofaScore tournament ID or name -> competition label below. Tournaments named like a label need no entry.
+sofascore_competitions:
+  17: Premier League
+  8: La Liga
+  23: Serie A
+  35: Bundesliga
+  34: Ligue 1
+  7: Champions Lg
+  679: Europa Lg
+  17015: Conf Lg
+  465: UEFA Super Cup
+  357: Club WC
+  19: FA Cup
+  21: EFL Cup
+  346: Community Shield
+  329: Copa del Rey
+  213: Supercopa de España
+  328: Coppa Italia
+  341: Supercoppa Italiana
+  217: DFB-Pokal
+  799: DFL-Supercup
+  335: Coupe de France
+  339: Trophée des Champions
+  16: World Cup
+  1: UEFA Euro
+  133: Copa América
+  270: Africa Cup of Nations
+  10783: UEFA Nations League
+  11: WCQ
+  851: Friendlies (M)
+  World Cup Qual. CONMEBOL: WCQ
+  Club Friendly Games: Club Friendlies
+
+# Competition label -> attributes. Unknown competitions are loaded as type Other.
+competitions:
+  Premier League:       {name: Premier League, type: League, big_stage: false, tier: Major, weight: 2}
+  La Liga:              {name: La Liga, type: League, big_stage: false, tier: Major, weight: 2}
+  Serie A:              {name: Serie A, type: League, big_stage: false, tier: Major, weight: 2}
+  Bundesliga:           {name: Bundesliga, type: League, big_stage: false, tier: Major, weight: 2}
+  Ligue 1:              {name: Ligue 1, type: League, big_stage: false, tier: Major, weight: 2}
+  Champions Lg:         {name: UEFA Champions League, type: Continental, big_stage: true, tier: Major, weight: 3}
+  Europa Lg:            {name: UEFA Europa League, type: Continental, big_stage: false, tier: Minor, weight: 1.5}
+  Conf Lg:              {name: UEFA Conference League, type: Continental, big_stage: false, tier: Minor, weight: 1}
+  UEFA Super Cup:       {name: UEFA Super Cup, type: Super Cup, big_stage: false, tier: Minor, weight: 0.5}
+  Club WC:              {name: FIFA Club World Cup, type: Continental, big_stage: false, tier: Minor, weight: 1}
+  FA Cup:               {name: FA Cup, type: Domestic Cup, big_stage: false, tier: Minor, weight: 1}
+  EFL Cup:              {name: EFL Cup, type: Domestic Cup, big_stage: false, tier: Minor, weight: 0.5}
+  Community Shield:     {name: FA Community Shield, type: Super Cup, big_stage: false, tier: Minor, weight: 0.5}
+  Copa del Rey:         {name: Copa del Rey, type: Domestic Cup, big_stage: false, tier: Minor, weight: 1}
+  Supercopa de España:  {name: Supercopa de España, type: Super Cup, big_stage: false, tier: Minor, weight: 0.5}
+  Coppa Italia:         {name: Coppa Italia, type: Domestic Cup, big_stage: false, tier: Minor, weight: 1}
+  Supercoppa Italiana:  {name: Supercoppa Italiana, type: Super Cup, big_stage: false, tier: Minor, weight: 0.5}
+  DFB-Pokal:            {name: DFB-Pokal, type: Domestic Cup, big_stage: false, tier: Minor, weight: 1}
+  DFL-Supercup:         {name: DFL-Supercup, type: Super Cup, big_stage: false, tier: Minor, weight: 0.5}
+  Coupe de France:      {name: Coupe de France, type: Domestic Cup, big_stage: false, tier: Minor, weight: 1}
+  Trophée des Champions: {name: Trophée des Champions, type: Super Cup, big_stage: false, tier: Minor, weight: 0.5}
+  World Cup:            {name: FIFA World Cup, type: International, big_stage: true, tier: Major, weight: 3}
+  UEFA Euro:            {name: UEFA Euro, type: International, big_stage: true, tier: Major, weight: 2.5}
+  Copa América:         {name: Copa América, type: International, big_stage: true, tier: Major, weight: 2.5}
+  Africa Cup of Nations: {name: Africa Cup of Nations, type: International, big_stage: true, tier: Major, weight: 2}
+  # Outside Europe. MLS has no league table; the MLS Cup title is in data/manual/competition_overrides.csv.
+  MLS:                  {name: MLS, type: League, big_stage: false, tier: Minor, weight: 1}
+  Leagues Cup:          {name: Leagues Cup, type: Continental, big_stage: false, tier: Minor, weight: 0.5}
+  CONCACAF Champions Cup: {name: CONCACAF Champions Cup, type: Continental, big_stage: false, tier: Minor, weight: 1}
+  UEFA Nations League:  {name: UEFA Nations League, type: International, big_stage: false, tier: Minor, weight: 1}
+  WCQ:                  {name: World Cup Qualifying, type: Qualifier, big_stage: false, tier: Minor, weight: 0}
+  UEFA Euro Qualifying: {name: Euro Qualifying, type: Qualifier, big_stage: false, tier: Minor, weight: 0}
+  Friendlies (M):       {name: Friendlies, type: Other, big_stage: false, tier: Minor, weight: 0}
+  Club Friendlies:      {name: Club Friendlies, type: Other, big_stage: false, tier: Minor, weight: 0}
+  MLS Preseason:        {name: MLS Preseason, type: Other, big_stage: false, tier: Minor, weight: 0}
+  Telekom Cup:          {name: Telekom Cup, type: Other, big_stage: false, tier: Minor, weight: 0}

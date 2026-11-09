@@ -1,0 +1,250 @@
+table FactPlayerSeason
+	lineageTag: 59328e3a-dd41-4253-b809-a80e6f7061f6
+
+	column SeasonID
+		dataType: string
+		isHidden
+		lineageTag: 459aefb1-93dd-4560-989d-7b1750929805
+		summarizeBy: none
+		sourceColumn: SeasonID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlayerID
+		dataType: string
+		isHidden
+		lineageTag: e059ddad-1fb8-4809-881c-101098757e7a
+		summarizeBy: none
+		sourceColumn: PlayerID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamID
+		dataType: string
+		isHidden
+		lineageTag: 2c488e61-7e88-461d-8042-1b5ff0839e83
+		summarizeBy: none
+		sourceColumn: TeamID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Matches
+		dataType: int64
+		formatString: 0
+		lineageTag: f92de39c-a996-4926-ab4c-acb17ee41698
+		summarizeBy: sum
+		sourceColumn: Matches
+
+		annotation SummarizationSetBy = Automatic
+
+	column Minutes
+		dataType: int64
+		formatString: 0
+		lineageTag: 8a72206a-15e6-4334-ba80-ef01b47424e9
+		summarizeBy: sum
+		sourceColumn: Minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Goals
+		dataType: int64
+		formatString: 0
+		lineageTag: c7a57ebd-ccfe-49d5-9d8e-29cc6ccf6de4
+		summarizeBy: sum
+		sourceColumn: Goals
+
+		annotation SummarizationSetBy = Automatic
+
+	column PenaltyGoals
+		dataType: int64
+		formatString: 0
+		lineageTag: c7e45b1f-1842-42d5-a9a7-435a9e83986d
+		summarizeBy: sum
+		sourceColumn: PenaltyGoals
+
+		annotation SummarizationSetBy = Automatic
+
+	column Assists
+		dataType: int64
+		formatString: 0
+		lineageTag: 6dc1f245-3f24-4d49-8f19-d809765436f2
+		summarizeBy: sum
+		sourceColumn: Assists
+
+		annotation SummarizationSetBy = Automatic
+
+	column xG
+		dataType: double
+		lineageTag: 628ecaab-f9e3-4da2-96fe-2e54403d631f
+		summarizeBy: sum
+		sourceColumn: xG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column npxG
+		dataType: double
+		lineageTag: 971afb23-f315-46b6-b167-333bf850ddab
+		summarizeBy: sum
+		sourceColumn: npxG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column xA
+		dataType: double
+		lineageTag: 66e11f0c-f3d6-4a06-8d6e-5a8581c9e58f
+		summarizeBy: sum
+		sourceColumn: xA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BigStageKnockoutGA
+		dataType: int64
+		formatString: 0
+		lineageTag: cbe41402-906a-48d8-8ffb-fcfd6f2a9c6a
+		summarizeBy: sum
+		sourceColumn: BigStageKnockoutGA
+
+		annotation SummarizationSetBy = Automatic
+
+	column LeaguePosition
+		dataType: int64
+		formatString: 0
+		lineageTag: 74bfcbde-a9ec-4ad1-8ee6-69aa3b709c3b
+		summarizeBy: sum
+		sourceColumn: LeaguePosition
+
+		annotation SummarizationSetBy = Automatic
+
+	column VotingRank =
+			
+			VAR s = FactPlayerSeason[SeasonID]
+			VAR p = FactPlayerSeason[PlayerID]
+			RETURN
+			    MAXX (
+			        FILTER ( FactVoting, FactVoting[SeasonID] = s && FactVoting[PlayerID] = p ),
+			        FactVoting[Rank]
+			    )
+		formatString: 0
+		lineageTag: b08c08e3-a6e2-4355-abce-2df7b261cafe
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsNominee = NOT ISBLANK ( FactPlayerSeason[VotingRank] )
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2c5bbffe-1aa4-4b6b-890b-0f556c6601fd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsBallonDorWinner = FactPlayerSeason[VotingRank] = 1
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 326fc0a1-0678-49fd-b450-b943676955bb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeAtSeasonEnd =
+			
+			INT ( YEARFRAC ( RELATED ( DimPlayer[BirthDate] ), RELATED ( DimSeason[EndDate] ) ) )
+		formatString: 0
+		lineageTag: b6d6da5c-f0ad-43d1-8150-8ba21d3f8492
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrophiesWon =
+			
+			VAR s = FactPlayerSeason[SeasonID]
+			VAR p = FactPlayerSeason[PlayerID]
+			RETURN
+			    COUNTROWS (
+			        FILTER (
+			            FactPlayerCompetition,
+			            FactPlayerCompetition[SeasonID] = s
+			                && FactPlayerCompetition[PlayerID] = p
+			                && FactPlayerCompetition[IsWinner]
+			        )
+			    ) + 0
+		formatString: 0
+		lineageTag: f860072c-cc8e-4491-acc6-e81b82cf6cb8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrophyScore =
+			
+			VAR s = FactPlayerSeason[SeasonID]
+			VAR p = FactPlayerSeason[PlayerID]
+			RETURN
+			    SUMX (
+			        FILTER (
+			            FactPlayerCompetition,
+			            FactPlayerCompetition[SeasonID] = s
+			                && FactPlayerCompetition[PlayerID] = p
+			                && FactPlayerCompetition[IsWinner]
+			        ),
+			        FactPlayerCompetition[TrophyWeight]
+			    ) + 0
+		lineageTag: ec9fb7ac-3391-4466-9976-7d07262acf34
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MinutesWithXg
+		dataType: int64
+		formatString: 0
+		lineageTag: d28629f6-7a55-49e5-8103-6b2d5b87e5ba
+		summarizeBy: sum
+		sourceColumn: MinutesWithXg
+
+		annotation SummarizationSetBy = Automatic
+
+	column xGIncEst
+		dataType: double
+		lineageTag: 84b54eba-256e-414e-999b-266a7bd038ef
+		summarizeBy: sum
+		sourceColumn: xGIncEst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column npxGIncEst
+		dataType: double
+		lineageTag: c442f64e-7085-4279-8a26-0e57af3bd498
+		summarizeBy: sum
+		sourceColumn: npxGIncEst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactPlayerSeason = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "FactPlayerSeason", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"SeasonID", type text}, {"PlayerID", type text}, {"TeamID", type text}, {"Matches", Int64.Type}, {"Minutes", Int64.Type}, {"Goals", Int64.Type}, {"PenaltyGoals", Int64.Type}, {"Assists", Int64.Type}, {"xG", type number}, {"npxG", type number}, {"xA", type number}, {"BigStageKnockoutGA", Int64.Type}, {"LeaguePosition", Int64.Type}, {"MinutesWithXg", Int64.Type}, {"xGIncEst", type number}, {"npxGIncEst", type number}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [SeasonID] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

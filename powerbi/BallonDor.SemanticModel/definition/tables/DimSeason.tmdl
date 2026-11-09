@@ -1,0 +1,77 @@
+table DimSeason
+	lineageTag: 2020096d-4ec4-4499-a51b-187795fed6dd
+
+	column SeasonID
+		dataType: string
+		isHidden
+		lineageTag: 71658fd9-3e04-4311-a3f5-08e11ba22ea7
+		summarizeBy: none
+		sourceColumn: SeasonID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BallonDorYear
+		dataType: int64
+		formatString: 0
+		lineageTag: c9aa3f81-2f35-4024-8c36-0b0cf6c5e74e
+		summarizeBy: sum
+		sourceColumn: BallonDorYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 89ba4a15-da17-42c2-9278-dc4ce6d51a29
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cf03910a-41bd-4267-a150-26b2fcda88bc
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VotersCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 76a44596-6152-4a51-a24c-e398ac7c4da9
+		summarizeBy: sum
+		sourceColumn: VotersCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxPointsPerBallot
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a1720ef-8c4e-42dc-8b6e-a0aa02424f5f
+		summarizeBy: sum
+		sourceColumn: MaxPointsPerBallot
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSeason = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "DimSeason", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"SeasonID", type text}, {"BallonDorYear", Int64.Type}, {"StartDate", type date}, {"EndDate", type date}, {"VotersCount", Int64.Type}, {"MaxPointsPerBallot", Int64.Type}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [SeasonID] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

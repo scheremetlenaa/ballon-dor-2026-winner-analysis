@@ -1,0 +1,30 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-CA
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DataFile","DimPlayer","DimTeam","DimCompetition","DimSeason","FactPlayerMatch","FactPlayerSeason","FactVoting","FactPlayerCompetition","IndexWeights"]
+
+annotation PBI_ProTooling = ["DevMode","TMDLView_Desktop"]
+
+ref table DimPlayer
+ref table DimTeam
+ref table DimCompetition
+ref table DimSeason
+ref table FactPlayerMatch
+ref table FactPlayerSeason
+ref table FactVoting
+ref table FactPlayerCompetition
+ref table IndexWeights
+ref table DimDate
+ref table Measure
+ref table Rivals
+
+ref cultureInfo en-US
+

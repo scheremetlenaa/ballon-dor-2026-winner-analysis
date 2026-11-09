@@ -1,0 +1,14 @@
+# ETL: scraping and transformation
+pandas>=2.0
+requests>=2.31
+playwright>=1.40
+beautifulsoup4>=4.12
+lxml>=4.9
+openpyxl>=3.1
+PyYAML>=6.0
+
+# Analysis: SQL warehouse, statistics, charts, notebook
+duckdb>=1.1
+scipy>=1.11
+matplotlib>=3.8
+jupyter>=1.0

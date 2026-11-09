@@ -1,0 +1,117 @@
+table DimPlayer
+	lineageTag: 5cff4704-6886-41aa-bfec-eba645e30c3f
+
+	column PlayerID
+		dataType: string
+		isHidden
+		lineageTag: 12b90e84-92ca-448f-a338-144d12d69fbe
+		summarizeBy: none
+		sourceColumn: PlayerID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlayerName
+		dataType: string
+		lineageTag: 96b94df2-89f8-43ca-9acb-a1511a49c9c7
+		summarizeBy: none
+		sourceColumn: PlayerName
+		sortByColumn: Rank
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nationality
+		dataType: string
+		lineageTag: 2fbd857d-69dc-4630-a05a-4178fdefcfa6
+		summarizeBy: none
+		sourceColumn: Nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	column Position
+		dataType: string
+		lineageTag: 08855c15-694d-4606-abe5-403afee9e438
+		summarizeBy: none
+		sourceColumn: Position
+
+		annotation SummarizationSetBy = Automatic
+
+	column PositionGroup
+		dataType: string
+		lineageTag: 367e0185-d564-4de2-ba6d-0dee60dee41e
+		summarizeBy: none
+		sourceColumn: PositionGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5021972a-d5be-4acc-ac9f-18482a06bbe3
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SofascoreID
+		dataType: int64
+		formatString: 0
+		lineageTag: cca8a94b-4c43-4f27-a41b-1afe464f8173
+		summarizeBy: count
+		sourceColumn: SofascoreID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rank =
+			
+			LOOKUPVALUE(
+			    FactVoting[Rank],
+			    FactVoting[PlayerID],
+			    DimPlayer[PlayerID]
+			)
+		formatString: 0
+		lineageTag: 8b1f079e-868f-4917-b86f-0f99632a0176
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Top 10' = NOT ISEMPTY ( RELATEDTABLE ( FactPlayerSeason ) )
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 75b1cbfb-a007-4696-83fa-7a4a0b697774
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Latest Rank' =
+			
+			VAR LastYear = MAXX ( ALL ( DimSeason ), DimSeason[BallonDorYear] )
+			RETURN
+			    MINX (
+			        FILTER ( RELATEDTABLE ( FactVoting ), RELATED ( DimSeason[BallonDorYear] ) = LastYear ),
+			        FactVoting[Rank]
+			    )
+		formatString: 0
+		lineageTag: ab0b5c55-f1d1-4df2-a92f-cc984850e81a
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPlayer = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "DimPlayer", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"PlayerID", type text}, {"PlayerName", type text}, {"Nationality", type text}, {"Position", type text}, {"PositionGroup", type text}, {"BirthDate", type date}, {"SofascoreID", Int64.Type}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [Nationality] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

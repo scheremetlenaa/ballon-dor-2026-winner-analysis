@@ -1,0 +1,805 @@
+table Measure
+	lineageTag: 2aeae406-e87d-4c9e-9e74-c2de799a301e
+
+	measure 'Matches Played' = CALCULATE ( COUNTROWS ( FactPlayerMatch ), FactPlayerMatch[Minutes] > 0 )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: 34ce8338-3827-4e3d-af1c-fc1bbe64fb3a
+
+	measure Minutes = SUM ( FactPlayerMatch[Minutes] )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: b7959227-d543-49c0-9c7b-fcbcf6610356
+
+	measure 'Penalty Goals' = SUM ( FactPlayerMatch[PenaltyGoals] )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: d830f2d2-5ff1-4bdd-8e24-2c2d63fa99d8
+
+	measure Goals = SUM ( FactPlayerMatch[Goals] )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: f1bd3afc-8761-45b5-a7f7-9eff9fa18b9f
+
+	measure 'NP Goals' = [Goals] - [Penalty Goals]
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: acaa05e7-5892-4eca-8885-49dbd5c0962a
+
+	measure Assists = SUM ( FactPlayerMatch[Assists] )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: b2c5685e-4be0-448e-9a5f-5fcd24e0353b
+
+	measure G+A = [Goals] + [Assists]
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: f6f812c9-9c20-4581-831e-ea777c7b5d28
+
+	measure 'NP G+A' = [NP Goals] + [Assists]
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: 9bbb51e0-1980-4951-bfba-f72e119e7855
+
+	measure xG = SUM ( FactPlayerMatch[xG] )
+		displayFolder: 1 - Output
+		lineageTag: e7e423c1-9150-4283-a2c5-762bd197c748
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure npxG = SUM ( FactPlayerMatch[npxG] )
+		displayFolder: 1 - Output
+		lineageTag: 732de097-c032-471d-b024-059beb9affcb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure xA = SUM ( FactPlayerMatch[xA] )
+		displayFolder: 1 - Output
+		lineageTag: 4ca7f57c-7efc-453c-bd80-677af7bc2511
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure npxG+xA = [npxG] + [xA]
+		displayFolder: 1 - Output
+		lineageTag: f2b440d7-2c8e-45ec-b76f-ea12061fbe5b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Goals - xG' = CALCULATE ( [Goals], NOT ISBLANK ( FactPlayerMatch[xG] ) ) - [xG]
+		displayFolder: 1 - Output
+		lineageTag: 7a33ded1-19d1-4159-b5ca-1a83a3c00b1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NP Goals - npxG' = CALCULATE ( [NP Goals], NOT ISBLANK ( FactPlayerMatch[npxG] ) ) - [npxG]
+		displayFolder: 1 - Output
+		lineageTag: a8ced718-4b4e-4a60-8510-32d91c7b5860
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Assists - xA' = CALCULATE ( [Assists], NOT ISBLANK ( FactPlayerMatch[xA] ) ) - [xA]
+		displayFolder: 1 - Output
+		lineageTag: 9ca7cf2b-751e-4099-ab53-fcb49943c08f
+
+		formatStringDefinition = ""
+
+	measure 'Goals per 90' = DIVIDE ( [Goals] * 90, [Minutes] )
+		displayFolder: 1 - Output
+		lineageTag: 63ed2d8f-27af-4b60-930c-2330a75d0a15
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NP G+A per 90' = DIVIDE ( [NP G+A] * 90, [Minutes] )
+		displayFolder: 1 - Output
+		lineageTag: 03b64ef8-6ea3-4299-a979-72ffaddc3464
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'npxG per 90' = DIVIDE ( [npxG] * 90, [Minutes with xG] )
+		displayFolder: 1 - Output
+		lineageTag: 6b7ff447-1910-4878-a11e-c4b545a087d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'npxG+xA per 90' = DIVIDE ( [npxG+xA] * 90, [Minutes with xG] )
+		displayFolder: 1 - Output
+		lineageTag: 5d2d8b5a-df9f-491d-9dd9-891556617035
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Is Eligible (900+ min)' = IF ( [Minutes] >= 900, 1, 0 )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: 3b6c5519-58f5-45d0-a7b8-7370149527f0
+
+	measure Shots = SUM ( FactPlayerMatch[Shots] )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: bd0649ca-d6e0-4d10-8cf0-3e5840309646
+
+	measure 'Shot Conversion %' = DIVIDE ( [Goals], [Shots] )
+		formatString: 0.0%
+		displayFolder: 1 - Output
+		lineageTag: 62c2ae91-f352-464b-8041-e88b6edb43f3
+
+	measure 'Shots on Target %' = DIVIDE ( SUM ( FactPlayerMatch[ShotsOnTarget] ), [Shots] )
+		formatString: 0.0%
+		displayFolder: 1 - Output
+		lineageTag: c9ff3904-f0c2-41da-bd56-f0a12edc8fd9
+
+	measure 'Knockout G+A' =
+			
+			CALCULATE ( [G+A], FactPlayerMatch[IsKnockout] = TRUE () )
+		formatString: 0
+		displayFolder: 2 - Big games
+		lineageTag: 22889525-8d37-439a-a66b-11ab64f9f46a
+
+	measure 'Big Stage Knockout G+A' =
+			
+			CALCULATE ( [G+A], FactPlayerMatch[IsKnockout] = TRUE (), DimCompetition[IsBigStage] = TRUE () )
+		formatString: 0
+		displayFolder: 2 - Big games
+		lineageTag: e362ffff-dee8-4195-b0e5-7502c9a64b61
+
+	measure 'UCL G+A' =
+			
+			CALCULATE ( [G+A], DimCompetition[CompetitionName] = "UEFA Champions League" )
+		formatString: 0
+		displayFolder: 2 - Big games
+		lineageTag: ba0a688f-92c3-4557-a91e-940ffc27de70
+
+	measure 'World Cup G+A' =
+			
+			CALCULATE ( [G+A], DimCompetition[CompetitionName] = "FIFA World Cup" )
+		formatString: 0
+		displayFolder: 2 - Big games
+		lineageTag: e73fb253-b213-4b3f-a342-c68adbe4711e
+
+	measure 'Vs Top-6 G+A per 90' =
+			
+			CALCULATE ( [NP G+A per 90], FactPlayerMatch[IsVsTop6] = TRUE () )
+		displayFolder: 2 - Big games
+		lineageTag: 0f9d727d-65bd-4d37-b8a3-4459de0319fa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Decisive Goals' = SUM ( FactPlayerMatch[DecisiveGoals] )
+		formatString: 0
+		displayFolder: 2 - Big games
+		lineageTag: 8f6e8ac6-6a72-4150-a3f8-347ebd3d819f
+
+	measure 'Decisive Goals %' = DIVIDE ( [Decisive Goals], [Goals] )
+		formatString: 0.0%
+		displayFolder: 2 - Big games
+		lineageTag: 34125787-d019-4598-812d-a4f9d4d3387c
+
+	measure 'Avg Rating' = AVERAGE ( FactPlayerMatch[Rating] )
+		displayFolder: 2 - Big games
+		lineageTag: f7a42b03-6ba2-4fd7-acec-646e025005e0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Knockout Avg Rating' =
+			
+			CALCULATE ( [Avg Rating], FactPlayerMatch[IsKnockout] = TRUE () )
+		displayFolder: 2 - Big games
+		lineageTag: 6e84899d-309f-483e-859e-6533ded0773f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Big Game Rating Uplift' = [Knockout Avg Rating] - [Avg Rating]
+		displayFolder: 2 - Big games
+		lineageTag: bd6d9826-afba-4027-91fd-dd0000641f19
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Trophies Won' =
+			
+			CALCULATE ( COUNTROWS ( FactPlayerCompetition ), FactPlayerCompetition[IsWinner] = TRUE () ) + 0
+		formatString: 0
+		displayFolder: 3 - Team
+		lineageTag: a46e906c-2123-41fb-bb31-fbc0afdc339f
+
+	measure 'Major Trophies' =
+			
+			CALCULATE (
+			    COUNTROWS ( FactPlayerCompetition ),
+			    FactPlayerCompetition[IsWinner] = TRUE (),
+			    FactPlayerCompetition[TrophyTier] = "Major"
+			) + 0
+		formatString: 0
+		displayFolder: 3 - Team
+		lineageTag: 0138bfcd-f418-4eb1-bf57-538ff608edc2
+
+	measure 'Trophy Score' =
+			
+			CALCULATE ( SUM ( FactPlayerCompetition[TrophyWeight] ), FactPlayerCompetition[IsWinner] = TRUE () ) + 0
+		displayFolder: 3 - Team
+		lineageTag: 3a17f14f-f305-44b5-b505-680e13baea08
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Stage Progress %' =
+			
+			AVERAGEX (
+			    FactPlayerCompetition,
+			    DIVIDE ( FactPlayerCompetition[StageOrder], FactPlayerCompetition[MaxStageOrder] )
+			)
+		formatString: 0.0%
+		displayFolder: 3 - Team
+		lineageTag: fd147d51-1b73-4bde-9969-1399e526a148
+
+	measure 'UCL Stage Reached' =
+			
+			VAR t =
+			    CALCULATETABLE (
+			        FactPlayerCompetition,
+			        DimCompetition[CompetitionName] = "UEFA Champions League"
+			    )
+			RETURN
+			    MAXX ( TOPN ( 1, t, FactPlayerCompetition[StageOrder], DESC ), FactPlayerCompetition[StageReached] )
+		displayFolder: 3 - Team
+		lineageTag: 65c6e460-2e50-4f74-8809-69cc28a308c9
+
+	measure 'Team Goal Involvement %' = DIVIDE ( [G+A], SUM ( FactPlayerMatch[TeamGoals] ) )
+		formatString: 0.0%
+		displayFolder: 3 - Team
+		lineageTag: 432662e3-0710-4c10-8da0-b79f773bca25
+
+	measure 'Win %' =
+			
+			DIVIDE ( CALCULATE ( [Matches Played], FactPlayerMatch[Result] = "W" ), [Matches Played] )
+		formatString: 0.0%
+		displayFolder: 3 - Team
+		lineageTag: 1639dac2-469e-4866-800b-3243e3586572
+
+	measure 'Matches with G/A' =
+			
+			COUNTROWS (
+			    FILTER (
+			        FactPlayerMatch,
+			        FactPlayerMatch[Minutes] > 0
+			            && FactPlayerMatch[Goals] + FactPlayerMatch[Assists] > 0
+			    )
+			) + 0
+		formatString: 0
+		displayFolder: 4 - Consistency
+		lineageTag: 30b25140-66a9-4555-820a-d8632ce5a790
+
+	measure '% Matches with G/A' = DIVIDE ( [Matches with G/A], [Matches Played] )
+		formatString: 0.0%
+		displayFolder: 4 - Consistency
+		lineageTag: 7b336648-5362-431f-a044-654029623db9
+
+	measure 'G+A Rolling 5' =
+			
+			VAR CurrentDate = MAX ( DimDate[Date] )
+			VAR Last5 =
+			    TOPN (
+			        5,
+			        CALCULATETABLE (
+			            SUMMARIZE ( FactPlayerMatch, FactPlayerMatch[MatchID], FactPlayerMatch[Date] ),
+			            FactPlayerMatch[Minutes] > 0,
+			            FactPlayerMatch[Date] <= CurrentDate,
+			            REMOVEFILTERS ( DimDate )
+			        ),
+			        FactPlayerMatch[Date], DESC
+			    )
+			RETURN
+			    IF (
+			        NOT ISEMPTY ( FactPlayerMatch ),
+			        DIVIDE ( CALCULATE ( [G+A], Last5, REMOVEFILTERS ( DimDate ) ), COUNTROWS ( Last5 ) )
+			    )
+		displayFolder: 4 - Consistency
+		lineageTag: b75b83c6-20d8-4b8a-ae37-8344fb5b48f1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'BdO Points' = SUM ( FactVoting[Points] )
+		formatString: 0
+		displayFolder: 5 - Voting
+		lineageTag: 31540c4d-f2cc-4483-985f-c1647a9afc0f
+
+	measure 'BdO Rank' = MIN ( FactVoting[Rank] )
+		formatString: 0
+		displayFolder: 5 - Voting
+		lineageTag: 74d1fa55-9562-4fdc-91ca-58d351cdc0cb
+
+	measure 'First Place Votes' = SUM ( FactVoting[FirstPlaceVotes] )
+		formatString: 0
+		displayFolder: 5 - Voting
+		lineageTag: fef8b09f-9e63-433f-bb7c-bcef56c878f2
+
+	measure 'Max Possible Points' =
+			
+			SUMX (
+			    SUMMARIZE ( DimSeason, DimSeason[SeasonID], DimSeason[VotersCount], DimSeason[MaxPointsPerBallot] ),
+			    DimSeason[VotersCount] * DimSeason[MaxPointsPerBallot]
+			)
+		formatString: 0
+		displayFolder: 5 - Voting
+		lineageTag: 4dea042b-bafa-42ca-8bed-5926893e3782
+
+	measure 'Points Share %' =
+			
+			VAR FromPoints = DIVIDE ( [BdO Points], [Max Possible Points] )
+			RETURN
+			    IF ( ISBLANK ( FromPoints ), AVERAGE ( FactVoting[VoteSharePct] ), FromPoints )
+		formatString: 0.0%
+		displayFolder: 5 - Voting
+		lineageTag: 41f0f3a4-e8ed-49a1-9551-13d3b41cfa7c
+
+	measure 'First Place Vote Share %' =
+			
+			DIVIDE (
+			    [First Place Votes],
+			    SUMX ( SUMMARIZE ( DimSeason, DimSeason[SeasonID], DimSeason[VotersCount] ), DimSeason[VotersCount] )
+			)
+		formatString: 0.0%
+		displayFolder: 5 - Voting
+		lineageTag: 665a9cbd-76bf-4758-9b50-947034096562
+
+	measure 'Winner Margin (pts)' =
+			
+			VAR P1 = CALCULATE ( SUM ( FactVoting[Points] ), FactVoting[Rank] = 1, REMOVEFILTERS ( DimPlayer ) )
+			VAR P2 = CALCULATE ( SUM ( FactVoting[Points] ), FactVoting[Rank] = 2, REMOVEFILTERS ( DimPlayer ) )
+			RETURN IF ( NOT ISBLANK ( P1 ), P1 - P2 )
+		formatString: 0
+		displayFolder: 5 - Voting
+		lineageTag: 6477e16a-a5d0-4b25-8568-d0414f51f377
+
+	measure 'Winner Margin %' =
+			
+			VAR P1 = CALCULATE ( SUM ( FactVoting[Points] ), FactVoting[Rank] = 1, REMOVEFILTERS ( DimPlayer ) )
+			VAR P2 = CALCULATE ( SUM ( FactVoting[Points] ), FactVoting[Rank] = 2, REMOVEFILTERS ( DimPlayer ) )
+			RETURN DIVIDE ( P1 - P2, P2 )
+		formatString: 0.0%
+		displayFolder: 5 - Voting
+		lineageTag: 78392372-d79a-4c10-adb2-c2e4c923886b
+
+	measure 'Season Minutes' = SUM ( FactPlayerSeason[Minutes] )
+		formatString: 0
+		displayFolder: 6 - History
+		lineageTag: ca9cdb51-9ae0-4d7c-a67a-ed3a5128605c
+
+	measure 'Season NP G+A' = SUM ( FactPlayerSeason[Goals] ) - SUM ( FactPlayerSeason[PenaltyGoals] ) + SUM ( FactPlayerSeason[Assists] )
+		formatString: 0
+		displayFolder: 6 - History
+		lineageTag: d21bb146-116f-456f-8174-35099a0d945f
+
+	measure 'Season NP G+A per 90' = DIVIDE ( [Season NP G+A] * 90, [Season Minutes] )
+		displayFolder: 6 - History
+		lineageTag: 4ce240f5-56dc-458d-b00f-c7a788edbe3c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Season Trophy Score' = SUM ( FactPlayerSeason[TrophyScore] )
+		displayFolder: 6 - History
+		lineageTag: 7abce8e0-9b4a-4b3c-bb70-0274f36cb6b2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Season Big Stage KO G+A' = SUM ( FactPlayerSeason[BigStageKnockoutGA] )
+		formatString: 0
+		displayFolder: 6 - History
+		lineageTag: 476a68ad-2dff-4aca-bd20-d65656b00a00
+
+	measure 'Winners Count' =
+			
+			CALCULATE ( COUNTROWS ( FactPlayerSeason ), FactPlayerSeason[IsBallonDorWinner] = TRUE () )
+		formatString: 0
+		displayFolder: 6 - History
+		lineageTag: 52d1cd2b-d599-443e-9aa5-b81be0272e7c
+
+	measure 'Winners Share %' =
+			
+			DIVIDE ( [Winners Count], CALCULATE ( [Winners Count], REMOVEFILTERS ( DimPlayer ), REMOVEFILTERS ( DimTeam ) ) )
+		formatString: 0.0%
+		displayFolder: 6 - History
+		lineageTag: 5230bbc0-c4dc-4abe-a373-a0fab4a93d5a
+
+	measure 'Avg Winner NP G+A (baseline)' =
+			
+			VAR FromYear = 2015
+			VAR ToYear = 2025
+			RETURN
+			    CALCULATE (
+			        AVERAGEX (
+			            FILTER ( FactPlayerSeason, FactPlayerSeason[IsBallonDorWinner] ),
+			            FactPlayerSeason[Goals] - FactPlayerSeason[PenaltyGoals] + FactPlayerSeason[Assists]
+			        ),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( DimTeam ),
+			        REMOVEFILTERS ( DimSeason ),
+			        DimSeason[BallonDorYear] >= FromYear,
+			        DimSeason[BallonDorYear] <= ToYear
+			    )
+		displayFolder: 6 - History
+		lineageTag: 94a8d374-4fe4-4f93-9024-a6c0cfb8d898
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NP G+A vs Avg Winner' = [Season NP G+A] - [Avg Winner NP G+A (baseline)]
+		displayFolder: 6 - History
+		lineageTag: f1d8dede-1d52-4382-9e6f-17bee8971467
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Trophy Score vs Avg Winner' = [Season Trophy Score] - [Avg Winner Trophy Score (baseline)]
+		displayFolder: 6 - History
+		lineageTag: 6411ba8c-0ffd-414b-8b47-3f5a12469879
+
+	measure 'Avg Winner Age (baseline)' =
+			
+			VAR FromYear = 2015
+			VAR ToYear = 2025
+			RETURN
+			    CALCULATE (
+			        AVERAGEX (
+			            FILTER ( FactPlayerSeason, FactPlayerSeason[IsBallonDorWinner] ),
+			            FactPlayerSeason[AgeAtSeasonEnd]
+			        ),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( DimTeam ),
+			        REMOVEFILTERS ( DimSeason ),
+			        DimSeason[BallonDorYear] >= FromYear,
+			        DimSeason[BallonDorYear] <= ToYear
+			    )
+		displayFolder: 6 - History
+		lineageTag: 7e7b517a-4091-49cb-97fa-9f39c3a7aa21
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Winner Trophy Score (baseline)' =
+			
+			VAR FromYear = 2015
+			VAR ToYear = 2025
+			RETURN
+			    CALCULATE (
+			        AVERAGEX (
+			            FILTER ( FactPlayerSeason, FactPlayerSeason[IsBallonDorWinner] ),
+			            FactPlayerSeason[TrophyScore]
+			        ),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( DimTeam ),
+			        REMOVEFILTERS ( DimSeason ),
+			        DimSeason[BallonDorYear] >= FromYear,
+			        DimSeason[BallonDorYear] <= ToYear
+			    )
+		displayFolder: 6 - History
+		lineageTag: fb1a5970-d718-4958-940d-64973a57f29d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Winner Big Stage KO G+A (baseline)' =
+			
+			VAR FromYear = 2015
+			VAR ToYear = 2025
+			RETURN
+			    CALCULATE (
+			        AVERAGEX (
+			            FILTER ( FactPlayerSeason, FactPlayerSeason[IsBallonDorWinner] ),
+			            FactPlayerSeason[BigStageKnockoutGA]
+			        ),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( DimTeam ),
+			        REMOVEFILTERS ( DimSeason ),
+			        DimSeason[BallonDorYear] >= FromYear,
+			        DimSeason[BallonDorYear] <= ToYear
+			    )
+		displayFolder: 6 - History
+		lineageTag: 6ab61896-df87-4a0f-affe-5b5db0033d72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Pctl Output' =
+			
+			VAR Cur = [Season NP G+A]
+			VAR Tbl =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( FactPlayerSeason[PlayerID] ), "@v", [Season NP G+A] ),
+			        FactPlayerSeason[IsNominee] = TRUE (),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( FactPlayerSeason[PlayerID] )
+			    )
+			VAR N = COUNTROWS ( Tbl )
+			VAR Below = COUNTROWS ( FILTER ( Tbl, [@v] < Cur ) ) + 0   -- COUNTROWS of an empty table is BLANK, not 0
+			RETURN
+			    IF ( HASONEVALUE ( DimSeason[SeasonID] ) && NOT ISBLANK ( Cur ), DIVIDE ( Below, N - 1 ) )
+		formatString: 0.0%
+		displayFolder: 7 -Percentiles
+		lineageTag: 983a6d92-e26a-421d-9407-f8e653628ef4
+
+	measure 'Pctl Trophies' =
+			
+			VAR Cur = [Season Trophy Score]
+			VAR Tbl =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( FactPlayerSeason[PlayerID] ), "@v", [Season Trophy Score] ),
+			        FactPlayerSeason[IsNominee] = TRUE (),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( FactPlayerSeason[PlayerID] )
+			    )
+			VAR N = COUNTROWS ( Tbl )
+			VAR Below = COUNTROWS ( FILTER ( Tbl, [@v] < Cur ) ) + 0   -- COUNTROWS of an empty table is BLANK, not 0
+			RETURN
+			    IF ( HASONEVALUE ( DimSeason[SeasonID] ) && NOT ISBLANK ( Cur ), DIVIDE ( Below, N - 1 ) )
+		formatString: 0.0%
+		displayFolder: 7 -Percentiles
+		lineageTag: 5ce71b28-56f8-4869-94d2-04a910e4c1c2
+
+	measure 'Pctl BigGames' =
+			
+			VAR Cur = [Season Big Stage KO G+A]
+			VAR Tbl =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( FactPlayerSeason[PlayerID] ), "@v", [Season Big Stage KO G+A] ),
+			        FactPlayerSeason[IsNominee] = TRUE (),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( FactPlayerSeason[PlayerID] )
+			    )
+			VAR N = COUNTROWS ( Tbl )
+			VAR Below = COUNTROWS ( FILTER ( Tbl, [@v] < Cur ) ) + 0   -- COUNTROWS of an empty table is BLANK, not 0
+			RETURN
+			    IF ( HASONEVALUE ( DimSeason[SeasonID] ) && NOT ISBLANK ( Cur ), DIVIDE ( Below, N - 1 ) )
+		formatString: 0.0%
+		displayFolder: 7 -Percentiles
+		lineageTag: 406e758e-9629-4cee-9f4c-ba144bb33751
+
+	measure 'Pctl Efficiency' =
+			
+			VAR Cur = [Season NP G+A per 90]
+			VAR Tbl =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( FactPlayerSeason[PlayerID] ), "@v", [Season NP G+A per 90] ),
+			        FactPlayerSeason[IsNominee] = TRUE (),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( FactPlayerSeason[PlayerID] )
+			    )
+			VAR N = COUNTROWS ( Tbl )
+			VAR Below = COUNTROWS ( FILTER ( Tbl, [@v] < Cur ) ) + 0   -- COUNTROWS of an empty table is BLANK, not 0
+			RETURN
+			    IF ( HASONEVALUE ( DimSeason[SeasonID] ) && NOT ISBLANK ( Cur ), DIVIDE ( Below, N - 1 ) )
+		formatString: 0.0%
+		displayFolder: 7 -Percentiles
+		lineageTag: a433de0f-531c-45b5-a9fa-9fc865b3f221
+
+	measure 'BdO Index' =
+			
+			VAR wO = LOOKUPVALUE ( IndexWeights[Weight], IndexWeights[Component], "Output" )
+			VAR wT = LOOKUPVALUE ( IndexWeights[Weight], IndexWeights[Component], "Trophies" )
+			VAR wB = LOOKUPVALUE ( IndexWeights[Weight], IndexWeights[Component], "BigGames" )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( [Pctl Output] ),
+			        wO * [Pctl Output] + wT * [Pctl Trophies] + wB * [Pctl BigGames]
+			    )
+		displayFolder: 8 - Index
+		lineageTag: de9f90d2-0b92-4d27-9409-187bb15619d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'BdO Index Rank' =
+			
+			VAR Cur = [BdO Index]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( Cur ),
+			        CALCULATE (
+			            RANKX ( VALUES ( FactPlayerSeason[PlayerID] ), [BdO Index], Cur, DESC, DENSE ),
+			            FactPlayerSeason[IsNominee] = TRUE (),
+			            REMOVEFILTERS ( DimPlayer ),
+			            REMOVEFILTERS ( FactPlayerSeason[PlayerID] )
+			        )
+			    )
+		formatString: 0
+		displayFolder: 8 - Index
+		lineageTag: 4b128022-36a5-4e85-b1d0-d15d25816cb6
+
+	measure 'Index Picked Winner' =
+			
+			VAR Tbl =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( FactPlayerSeason[PlayerID] ), "@idx", [BdO Index] ),
+			        FactPlayerSeason[IsNominee] = TRUE (),
+			        REMOVEFILTERS ( DimPlayer ),
+			        REMOVEFILTERS ( FactPlayerSeason[PlayerID] )
+			    )
+			VAR TopPlayer = MAXX ( TOPN ( 1, Tbl, [@idx], DESC ), FactPlayerSeason[PlayerID] )
+			VAR Actual =
+			    CALCULATE ( MAX ( FactVoting[PlayerID] ), FactVoting[Rank] = 1, REMOVEFILTERS ( DimPlayer ) )
+			RETURN
+			    IF ( HASONEVALUE ( DimSeason[SeasonID] ) && NOT ISBLANK ( Actual ), IF ( TopPlayer = Actual, 1, 0 ) )
+		formatString: 0
+		displayFolder: 8 - Index
+		lineageTag: 887a6795-5ebb-43aa-8b54-049e4910f1c7
+
+	measure 'Index Hit Rate %' =
+			
+			AVERAGEX ( VALUES ( DimSeason[SeasonID] ), [Index Picked Winner] )
+		formatString: 0.0%
+		displayFolder: 8 - Index
+		lineageTag: e292cb3e-5de8-4293-86c8-80b57471239f
+
+	measure 'Minutes with xG' = CALCULATE ( [Minutes], NOT ISBLANK ( FactPlayerMatch[xG] ) )
+		formatString: 0
+		displayFolder: 1 - Output
+		lineageTag: b419138b-c7e5-4fcc-a697-633c68ae9ea6
+
+	measure 'xG Coverage %' = DIVIDE ( [Minutes with xG], [Minutes] )
+		formatString: 0.0%
+		displayFolder: 1 - Output
+		lineageTag: b37bc0e7-4436-43ab-9804-b666357f5990
+
+	measure 'xG (incl. estimate)' = SUM ( FactPlayerMatch[xGIncEst] )
+		formatString: 0.0
+		displayFolder: 1 - Output
+		lineageTag: c5ded9ad-35d9-48f6-8af5-b38a4037038b
+
+	measure 'npxG (incl. estimate)' = SUM ( FactPlayerMatch[npxGIncEst] )
+		formatString: 0.0
+		displayFolder: 1 - Output
+		lineageTag: 7ea5b741-6c5d-4c68-81a4-1e9b8e7b2bab
+
+	measure 'Estimated npxG Share %' = DIVIDE ( CALCULATE ( [npxG (incl. estimate)], FactPlayerMatch[IsXgEstimated] = TRUE () ), [npxG (incl. estimate)] )
+		formatString: 0.0%
+		displayFolder: 1 - Output
+		lineageTag: 00ada946-7a0e-44bd-a976-b9bf81e47f00
+
+	measure 'Season npxG per 90' = DIVIDE ( SUM ( FactPlayerSeason[npxG] ) * 90, SUM ( FactPlayerSeason[MinutesWithXg] ) )
+		formatString: 0.00
+		displayFolder: 6 - History
+		lineageTag: c25f24da-98d8-4abd-82a1-6072b50ffc1b
+
+	measure 'Season npxG (incl. estimate)' = SUM ( FactPlayerSeason[npxGIncEst] )
+		formatString: 0.0
+		displayFolder: 6 - History
+		lineageTag: 521238e0-85fe-497b-ae15-5b5282ef7841
+
+	measure 'Rival Color' =
+			
+			IF (
+			    SELECTEDVALUE ( Rivals[PlayerName] ) = SELECTEDVALUE ( DimPlayer[PlayerName] ),
+			    "#D4AF37",
+			    "#8C6D2C"
+			)
+		displayFolder: 9 - Report
+		lineageTag: 0d644fc9-3439-4fe1-a0b0-260197a0d051
+
+	measure 'WC Stage Reached' =
+			
+			VAR t =
+			    CALCULATETABLE (
+			        FactPlayerCompetition,
+			        DimCompetition[CompetitionName] = "FIFA World Cup"
+			    )
+			RETURN
+			    MAXX ( TOPN ( 1, t, FactPlayerCompetition[StageOrder], DESC ), FactPlayerCompetition[StageReached] )
+		displayFolder: 3 - Team
+		lineageTag: c2aee222-1f99-4b63-ab2c-d80c17f1c7b8
+
+	measure 'Page Title' = SELECTEDVALUE ( DimPlayer[PlayerName], "Select a player" ) & " - 2025/26 season"
+		displayFolder: 9 - Report
+		lineageTag: 0620e447-297c-4d99-8a16-22cf0f9c8f36
+
+	measure 'Winner Color' = IF ( [BdO Rank] = 1, "#D4AF37", "#8C6D2C" )   -- the winner in gold (pages without a player slicer)
+		displayFolder: 9 - Report
+		lineageTag: f6b4132f-995a-4377-bcc2-eceb890b0351
+
+	measure 'Rank Gap' = [BdO Index Rank] - [BdO Rank]
+		formatString: 0
+		displayFolder: 9 - Report
+		lineageTag: 775f86b1-e54b-4949-9781-58a9506e1688
+
+	measure 'Index Output part' = LOOKUPVALUE ( IndexWeights[Weight], IndexWeights[Component], "Output" ) * [Pctl Output]
+		displayFolder: 9 - Report
+		lineageTag: a232dfb5-04f8-45ae-a56b-2f453169f876
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Index Trophies part' = LOOKUPVALUE ( IndexWeights[Weight], IndexWeights[Component], "Trophies" ) * [Pctl Trophies]
+		displayFolder: 9 - Report
+		lineageTag: 24b78806-5aeb-4054-ac77-4c943beee5cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Index BigGames part' = LOOKUPVALUE ( IndexWeights[Weight], IndexWeights[Component], "BigGames" ) * [Pctl BigGames]
+		displayFolder: 9 - Report
+		lineageTag: dcdc1d35-969f-4a28-a31e-53d36d38fb7d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rival Big Stage Knockout G+A' =
+			
+			CALCULATE (
+			    [Big Stage Knockout G+A],
+			    REMOVEFILTERS ( DimPlayer ),
+			    TREATAS ( VALUES ( Rivals[PlayerName] ), DimPlayer[PlayerName] )
+			)
+		formatString: 0
+		displayFolder: 9 - Report
+		lineageTag: 611edd8d-eb80-4d2d-a03b-b4c2395c7175
+
+	measure 'Rival Avg Rating' = ```
+			
+			CALCULATE (
+			    [Avg Rating],
+			    REMOVEFILTERS ( DimPlayer ),
+			    TREATAS ( VALUES ( Rivals[PlayerName] ), DimPlayer[PlayerName] ) 
+			)
+			```
+		displayFolder: 9 - Report
+		lineageTag: c5fc3c86-72af-4aa6-960b-5bc4950b29dd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rival Knockout Avg Rating' = ```
+			
+			CALCULATE ( 
+			    [Knockout Avg Rating],   
+			    REMOVEFILTERS ( DimPlayer ), 
+			    TREATAS ( VALUES ( Rivals[PlayerName] ), DimPlayer[PlayerName] ) 
+			)
+			```
+		displayFolder: 9 - Report
+		lineageTag: 51b505d2-50f9-4b49-a097-a98c7a5c5e76
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rival Big Game Rating Uplift' = ```
+			
+			CALCULATE ( 
+			    [Big Game Rating Uplift], 
+			    REMOVEFILTERS ( DimPlayer ), 
+			    TREATAS ( VALUES ( Rivals[PlayerName] ), DimPlayer[PlayerName] ) 
+			)
+			```
+		displayFolder: 9 - Report
+		lineageTag: 7f49173f-3f2a-4b95-ba26-937814e956b9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rival NP G+A per 90' = ```
+			
+			CALCULATE ( 
+			    [NP G+A per 90],         
+			    REMOVEFILTERS ( DimPlayer ), 
+			    TREATAS ( VALUES ( Rivals[PlayerName] ), DimPlayer[PlayerName] ) 
+			)
+			```
+		displayFolder: 9 - Report
+		lineageTag: d91a35b7-6fb9-4452-a266-eed05d0ce500
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rival Vs Top-6 G+A per 90' = ```
+			
+			CALCULATE ( 
+			    [Vs Top-6 G+A per 90],   
+			    REMOVEFILTERS ( DimPlayer ), 
+			    TREATAS ( VALUES ( Rivals[PlayerName] ), DimPlayer[PlayerName] ) 
+			)
+			```
+		displayFolder: 9 - Report
+		lineageTag: 11606ebc-744b-47b4-ab81-daeec1818b8b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 84c0bacd-2d29-478c-b882-1340a9b6d0f9
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = a00f4d2dad904f1cb80c7121f149b4ac
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

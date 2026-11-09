@@ -1,0 +1,75 @@
+table FactVoting
+	lineageTag: 79769fa2-f799-45c8-8912-8d39a84f3a1e
+
+	column SeasonID
+		dataType: string
+		isHidden
+		lineageTag: 7fb66220-cdb3-4d64-ab99-978725884b2f
+		summarizeBy: none
+		sourceColumn: SeasonID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlayerID
+		dataType: string
+		isHidden
+		lineageTag: 39303e54-bebc-4ba0-acdb-13abd07f4bce
+		summarizeBy: none
+		sourceColumn: PlayerID
+		sortByColumn: Rank
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rank
+		dataType: int64
+		formatString: 0
+		lineageTag: af100d91-3668-4f0d-b120-395c77559069
+		summarizeBy: sum
+		sourceColumn: Rank
+
+		annotation SummarizationSetBy = Automatic
+
+	column Points
+		dataType: string
+		lineageTag: 95cf0246-d1b4-452e-9ba3-d6f017c3efe7
+		summarizeBy: none
+		sourceColumn: Points
+
+		annotation SummarizationSetBy = Automatic
+
+	column VoteSharePct
+		dataType: string
+		lineageTag: 3a7fe1c8-d295-4934-a186-994cbab0f3df
+		summarizeBy: none
+		sourceColumn: VoteSharePct
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstPlaceVotes
+		dataType: string
+		lineageTag: 56474cdb-5dca-4323-b444-d6978585b4ec
+		summarizeBy: none
+		sourceColumn: FirstPlaceVotes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactVoting = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "FactVoting", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"SeasonID", type text}, {"PlayerID", type text}, {"Rank", Int64.Type}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [SeasonID] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

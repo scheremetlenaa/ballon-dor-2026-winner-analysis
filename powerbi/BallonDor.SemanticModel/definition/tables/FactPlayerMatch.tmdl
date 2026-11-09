@@ -1,0 +1,290 @@
+table FactPlayerMatch
+	lineageTag: 57260a8f-fbbd-401f-a9da-54771a840d56
+
+	column MatchID
+		dataType: string
+		lineageTag: bb606089-7284-4fb7-82be-637a9502ea2d
+		summarizeBy: none
+		sourceColumn: MatchID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: dd MMM yyyy
+		lineageTag: fe3e7872-87e5-4e0c-8fa1-dad9972dc39f
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SeasonID
+		dataType: string
+		isHidden
+		lineageTag: 3bb2764a-d1da-4545-a289-3ab8fc2fe3f9
+		summarizeBy: none
+		sourceColumn: SeasonID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlayerID
+		dataType: string
+		isHidden
+		lineageTag: 0413b3d3-311b-47b8-8b41-0dd835f8f61b
+		summarizeBy: none
+		sourceColumn: PlayerID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamID
+		dataType: string
+		isHidden
+		lineageTag: df0f586f-4843-4a47-b4cd-d4646c07cac2
+		summarizeBy: none
+		sourceColumn: TeamID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpponentTeamID
+		dataType: string
+		isHidden
+		lineageTag: 3741a479-9e5c-497a-8567-40b790a984e1
+		summarizeBy: none
+		sourceColumn: OpponentTeamID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompetitionID
+		dataType: string
+		isHidden
+		lineageTag: 545f9e6b-a54b-404e-8e92-a398da436248
+		summarizeBy: none
+		sourceColumn: CompetitionID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Stage
+		dataType: string
+		lineageTag: 12ba6bfb-fb74-4cc0-a3af-4628267e758a
+		summarizeBy: none
+		sourceColumn: Stage
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsKnockout
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c6e04b0b-7e2d-42bf-8e0e-2361896e7363
+		summarizeBy: none
+		sourceColumn: IsKnockout
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsVsTop6
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0d71df38-5050-49c6-adc1-63a6cee51323
+		summarizeBy: none
+		sourceColumn: IsVsTop6
+
+		annotation SummarizationSetBy = Automatic
+
+	column Minutes
+		dataType: int64
+		formatString: 0
+		lineageTag: 14ed32cc-540a-414f-94e7-1f1ef5954af9
+		summarizeBy: sum
+		sourceColumn: Minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Goals
+		dataType: int64
+		formatString: 0
+		lineageTag: 09a5ee58-a7c4-403b-a65f-1720352bc79d
+		summarizeBy: sum
+		sourceColumn: Goals
+
+		annotation SummarizationSetBy = Automatic
+
+	column PenaltyGoals
+		dataType: int64
+		formatString: 0
+		lineageTag: 57f395a0-5c61-4d24-80c4-57f2f627505f
+		summarizeBy: sum
+		sourceColumn: PenaltyGoals
+
+		annotation SummarizationSetBy = Automatic
+
+	column Assists
+		dataType: int64
+		formatString: 0
+		lineageTag: 345edad1-6f44-4993-b029-4a04873d7ca4
+		summarizeBy: sum
+		sourceColumn: Assists
+
+		annotation SummarizationSetBy = Automatic
+
+	column xG
+		dataType: double
+		lineageTag: c90cbb50-6f95-449a-b4c2-98cda2b92701
+		summarizeBy: sum
+		sourceColumn: xG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column npxG
+		dataType: double
+		lineageTag: 039c2d8f-b319-4eca-89ef-5c940c83853a
+		summarizeBy: sum
+		sourceColumn: npxG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column xA
+		dataType: double
+		lineageTag: 220ac630-b3a8-4988-a43c-06979fa27133
+		summarizeBy: sum
+		sourceColumn: xA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Shots
+		dataType: int64
+		formatString: 0
+		lineageTag: ed40cf70-f245-47de-a6c9-b8c7dad59fad
+		summarizeBy: sum
+		sourceColumn: Shots
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShotsOnTarget
+		dataType: int64
+		formatString: 0
+		lineageTag: ca448d9f-c6ce-43bd-85a0-bac842fc16a7
+		summarizeBy: sum
+		sourceColumn: ShotsOnTarget
+
+		annotation SummarizationSetBy = Automatic
+
+	column DecisiveGoals
+		dataType: int64
+		formatString: 0
+		lineageTag: d169af28-c26e-48a0-9ae0-702d0563e4d7
+		summarizeBy: sum
+		sourceColumn: DecisiveGoals
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rating
+		dataType: double
+		lineageTag: e23314b5-d736-4fe3-abd0-df09b09bfa83
+		summarizeBy: sum
+		sourceColumn: Rating
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TeamGoals
+		dataType: int64
+		formatString: 0
+		lineageTag: bef39219-bd55-4cf9-ba48-6db05e8349b9
+		summarizeBy: sum
+		sourceColumn: TeamGoals
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result
+		dataType: string
+		lineageTag: efb60be2-7212-44d1-ad34-95dfa3cf639c
+		summarizeBy: none
+		sourceColumn: Result
+
+		annotation SummarizationSetBy = Automatic
+
+	column Opponent =
+			
+			LOOKUPVALUE(
+			    DimTeam[TeamName],
+			    DimTeam[TeamID],
+			    FactPlayerMatch[OpponentTeamID]
+			)
+		lineageTag: 2842ea1b-18c8-4425-b2d2-079b2908fe96
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamName =
+			
+			LOOKUPVALUE(
+			    DimTeam[TeamName],
+			    DimTeam[TeamID],
+			    FactPlayerMatch[TeamID]
+			)
+		lineageTag: cf1f8d1b-4960-42f1-af6c-1685457b0ab9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column xGIncEst
+		dataType: double
+		lineageTag: 9871443e-c212-4d8f-b5e1-f17399122f48
+		summarizeBy: sum
+		sourceColumn: xGIncEst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column npxGIncEst
+		dataType: double
+		lineageTag: d88a0e94-608d-445b-b030-37a5b5703519
+		summarizeBy: sum
+		sourceColumn: npxGIncEst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsXgEstimated
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 396dde5b-c210-4f57-9a92-9c79d9b28bf8
+		summarizeBy: none
+		sourceColumn: IsXgEstimated
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPlayerMatch = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "FactPlayerMatch", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"MatchID", type text}, {"Date", type date}, {"SeasonID", type text}, {"PlayerID", type text}, {"TeamID", type text}, {"OpponentTeamID", type text}, {"CompetitionID", type text}, {"Stage", type text}, {"IsKnockout", type logical}, {"IsVsTop6", type logical}, {"Minutes", Int64.Type}, {"Goals", Int64.Type}, {"PenaltyGoals", Int64.Type}, {"Assists", Int64.Type}, {"xG", type number}, {"npxG", type number}, {"xA", type number}, {"Shots", Int64.Type}, {"ShotsOnTarget", Int64.Type}, {"DecisiveGoals", Int64.Type}, {"Rating", type number}, {"TeamGoals", Int64.Type}, {"Result", type text}, {"xGIncEst", type number}, {"npxGIncEst", type number}, {"IsXgEstimated", type logical}}, "en-US"),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [MatchID] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+

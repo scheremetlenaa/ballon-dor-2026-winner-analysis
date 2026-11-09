@@ -1,0 +1,39 @@
+table Rivals
+	lineageTag: 465fca51-8116-47ad-9114-b949ee53bd54
+
+	column PlayerName
+		lineageTag: 60d97bd8-fb90-425f-8570-e50302ae9c74
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [PlayerName]
+		sortByColumn: 'Vote Rank'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vote Rank'
+		formatString: 0
+		lineageTag: 30e3a502-4283-4ae7-870b-aa216da2a36f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Vote Rank]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Rivals = calculated
+		mode: import
+		source =
+				
+				VAR LastYear = MAXX ( ALL ( DimSeason ), DimSeason[BallonDorYear] )
+				RETURN
+				    SELECTCOLUMNS (
+				        FILTER ( DimPlayer, NOT ISEMPTY ( RELATEDTABLE ( FactPlayerSeason ) ) ),
+				        "PlayerName", DimPlayer[PlayerName],
+				        "Vote Rank",
+				            MINX (
+				                FILTER ( RELATEDTABLE ( FactVoting ), RELATED ( DimSeason[BallonDorYear] ) = LastYear ),
+				                FactVoting[Rank]
+				            )
+				    )
+
+	annotation PBI_Id = fb25810b53f147eea12d8de7f6d69d04
+

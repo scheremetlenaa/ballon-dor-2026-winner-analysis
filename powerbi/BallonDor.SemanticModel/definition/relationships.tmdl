@@ -1,0 +1,61 @@
+relationship 12d8ae3b-1f9c-472a-e63c-b2c0edab13b2
+	fromColumn: FactPlayerMatch.PlayerID
+	toColumn: DimPlayer.PlayerID
+
+relationship e18f3358-8f88-8f52-a8c5-ce89575a0566
+	fromColumn: FactPlayerSeason.PlayerID
+	toColumn: DimPlayer.PlayerID
+
+relationship 088d0a61-0377-2e85-f6f1-32290528568c
+	fromColumn: FactPlayerCompetition.PlayerID
+	toColumn: DimPlayer.PlayerID
+
+relationship 932516fe-81a4-45d8-c745-537755a2a66d
+	fromColumn: FactPlayerMatch.SeasonID
+	toColumn: DimSeason.SeasonID
+
+relationship 8a3c42e0-a969-bfc1-8f07-a1f9ff531bb4
+	fromColumn: FactPlayerSeason.SeasonID
+	toColumn: DimSeason.SeasonID
+
+relationship c69668bd-849b-1e93-4150-58c5390aaaed
+	fromColumn: FactVoting.SeasonID
+	toColumn: DimSeason.SeasonID
+
+relationship f7ecf5a5-0692-c0f3-d2ee-afea4572c309
+	fromColumn: FactVoting.PlayerID
+	toColumn: DimPlayer.PlayerID
+
+relationship 0528168f-5f21-d46f-3612-f077f4714d39
+	fromColumn: FactPlayerCompetition.SeasonID
+	toColumn: DimSeason.SeasonID
+
+relationship 5740237b-d66a-41be-1f1c-ee5329836cc5
+	fromColumn: FactPlayerMatch.TeamID
+	toColumn: DimTeam.TeamID
+
+relationship 3173c972-3389-4cb1-b908-b4ad0ced280b
+	isActive: false
+	fromColumn: FactPlayerMatch.OpponentTeamID
+	toColumn: DimTeam.TeamID
+
+relationship 3d1c1f51-e82e-3e95-5aef-8db463f5b805
+	fromColumn: FactPlayerSeason.TeamID
+	toColumn: DimTeam.TeamID
+
+relationship 6f61cda8-f9e3-65e2-8cab-8f4cb71053c6
+	fromColumn: FactPlayerCompetition.TeamID
+	toColumn: DimTeam.TeamID
+
+relationship 1116e2c2-bb28-6b73-2be2-1cbcf8a3db8a
+	fromColumn: FactPlayerMatch.CompetitionID
+	toColumn: DimCompetition.CompetitionID
+
+relationship 26688966-a0b6-a1cd-0e57-d33736106475
+	fromColumn: FactPlayerCompetition.CompetitionID
+	toColumn: DimCompetition.CompetitionID
+
+relationship c090f100-b04f-4dfd-91a2-d0a4c7b9d46d
+	fromColumn: FactPlayerMatch.Date
+	toColumn: DimDate.Date
+

@@ -1,0 +1,53 @@
+table DimDate
+	lineageTag: 4f228d26-9edb-40e6-91b8-83f869b3e49a
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: General Date
+		lineageTag: 7c7d238d-9cbc-4342-ab49-ea31ac162d4f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		formatString: 0
+		lineageTag: 6c97c5e9-17d6-4131-b6c3-e427e74da6d0
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNum
+		formatString: 0
+		lineageTag: 4c0da102-cdfa-4b29-b287-881f99d9c7d0
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MonthNum]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: 913649e7-619d-4794-8daf-428e98abb636
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS (
+				    CALENDAR ( DATE ( 2025, 8, 1 ), DATE ( 2026, 7, 31 ) ),
+				    "Year", YEAR ( [Date] ),
+				    "MonthNum", YEAR ( [Date] ) * 100 + MONTH ( [Date] ),
+				    "Month", FORMAT ( [Date], "MMM yyyy" )
+				)
+
+	annotation PBI_Id = 8e716595412f4b0da0d59f27ec806b1b
+

@@ -1,0 +1,52 @@
+table DimTeam
+	lineageTag: 359974c6-9f63-4ad6-85ef-f22c24bfe855
+
+	column TeamID
+		dataType: string
+		isHidden
+		lineageTag: bea0b35f-542a-4876-b218-dd71f486b806
+		summarizeBy: none
+		sourceColumn: TeamID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamName
+		dataType: string
+		lineageTag: c9cf02c3-c603-4125-9326-2681dcc47b4f
+		summarizeBy: none
+		sourceColumn: TeamName
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamType
+		dataType: string
+		lineageTag: 9fe81b35-6e24-4a09-bde1-36690c2b8c4f
+		summarizeBy: none
+		sourceColumn: TeamType
+
+		annotation SummarizationSetBy = Automatic
+
+	column League
+		dataType: string
+		lineageTag: b5d084b4-4dec-4cc6-89c5-f66a937bd23f
+		summarizeBy: none
+		sourceColumn: League
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimTeam = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(DataFile), null, true),
+				  #"Navigation 1" = Source{[Item = "DimTeam", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"TeamID", type text}, {"TeamName", type text}, {"TeamType", type text}, {"League", type text}}),
+				  #"Filtered rows" = Table.SelectRows(#"Changed column type", each [TeamID] <> null)
+				in
+				  #"Filtered rows"
+
+	annotation PBI_ResultType = Table
+
